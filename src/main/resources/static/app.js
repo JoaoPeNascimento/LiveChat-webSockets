@@ -5,8 +5,13 @@ const stompClient = new StompJs.Client({
 stompClient.onConnect = (frame) => {
     setConnected(true);
     console.log('Connected: ' + frame);
+
     stompClient.subscribe('/topics/livechat', (message) => {
         updateLiveChat(JSON.parse(message.body).content);
+    });
+
+    stompClient.subscribe('/topics/status', (message) => {
+        updateStatus(message.body);
     });
 };
 
@@ -31,6 +36,9 @@ function setConnected(connected) {
 }
 
 function connect() {
+    stompClient.connectHeaders = {
+        username: $("#user").val()
+    };
     stompClient.activate();
 }
 
@@ -46,6 +54,10 @@ function sendMessage() {
         body: JSON.stringify({'user': $("#user").val(), 'message': $("#message").val()})
     });
     $("#message").val("");
+}
+
+function updateStatus(message) {
+    $("#livechat").append("<tr><td class='status-message'>" + message + "</td></tr>");
 }
 
 function updateLiveChat(message) {

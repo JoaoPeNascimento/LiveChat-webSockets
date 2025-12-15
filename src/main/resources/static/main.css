@@ -141,3 +141,11 @@ h2 {
     margin-top: 5px;
     text-align: right;
 }
+
+.status-message {
+    color: #ffd700;
+    font-style: italic;
+    font-size: 14px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.2);
+}
